@@ -12,9 +12,12 @@ import {
 	fontFamilyOptions,
 	fontSizeOptions,
 	fontColors,
+	backgroundColors,
+	contentWidthArr,
 	OptionType 
 } from 'src/constants/articleProps';
 import { RadioGroup } from '../radio-group';
+import { Separator } from '../separator';
 
 export const ArticleParamsForm = () => {
 	// Открытие и закрытие
@@ -29,6 +32,13 @@ export const ArticleParamsForm = () => {
 
 	// Выпадоющий список для цвета шрифта
 	const [fontColorValue, setFontColorValue] = useState<OptionType>(defaultArticleState.fontColor);
+
+	// Выпадающий список для цвета фона
+	const [backgroundColorValue, setBackgroundColorValue] = useState<OptionType>(defaultArticleState.backgroundColor);
+
+	// Выпадающий список для ширины контента
+	const [contentWidthValue, setContentWidthValue] = useState<OptionType>(defaultArticleState.contentWidth);
+
 
 	return (
 		<>
@@ -65,6 +75,23 @@ export const ArticleParamsForm = () => {
 						onChange={setFontColorValue}
 						title='ЦВЕТ ШРИФТА'
 					/>
+					<Spacing size={50}/>
+					<Separator/>
+					<Spacing size={50}/>
+					<Select
+						selected={backgroundColorValue}
+						options={backgroundColors}
+						onChange={setBackgroundColorValue}
+						title='ЦВЕТ ФОНА'
+					/>
+					<Spacing size={50}/>
+					<Select
+						selected={contentWidthValue}
+						options={contentWidthArr}
+						onChange={setContentWidthValue}
+						title='ШИРИНА КОНТЕНТА'
+					/>
+					<Spacing size={207}/>
 					<div className={styles.bottomContainer}>
 						<Button title='Сбросить' type='reset' />
 						<Button title='Применить' type='submit' />
