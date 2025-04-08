@@ -11,6 +11,7 @@ import { useEnterSubmit } from './hooks/useEnterSubmit';
 import { useOutsideClickClose } from './hooks/useOutsideClickClose';
 
 import styles from './Select.module.scss';
+import { createPortal } from 'react-dom';
 
 type SelectProps = {
 	selected: OptionType | null;

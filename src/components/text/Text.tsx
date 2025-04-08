@@ -12,7 +12,7 @@ type Text = {
 	/** Булевая пропса, должен ли текст меняться в зависимости от конфига */
 	dynamic?: boolean;
 	/** Размер шрифта */
-	size?: 12 | 18 | 22 | 25 | 31 | 45;
+	size?: 12 | 18 | 22 | 25 | 31 | 38 | 45;
 	/** Вес шрифта */
 	weight?: 400 | 800;
 	/** Стиль шрифта */
@@ -25,6 +25,8 @@ type Text = {
 	family?: FontFamiliesClasses;
 	/** Булевая пропса, делает динамическим только семью шрифтов и цвет */
 	dynamicLite?: boolean;
+	/**Булевая пропса, делает динамическим только цвет текста, применоимо для кнопок */
+	dynamicButton?: boolean;
 };
 
 export const Text = ({
@@ -38,6 +40,7 @@ export const Text = ({
 	align = 'left',
 	family = 'open-sans',
 	dynamicLite = false,
+	dynamicButton = false,
 }: Text) => {
 	const className = clsx(
 		styles.text,
@@ -48,7 +51,8 @@ export const Text = ({
 		{ [styles.uppercase]: uppercase },
 		styles[`${align}`],
 		styles[`${family}`],
-		{ [styles.dynamicLite]: dynamicLite }
+		{ [styles.dynamicLite]: dynamicLite },
+		{ [styles.dynamicButton]: dynamicButton }
 	);
 	return <Tag className={className}>{children}</Tag>;
 };
