@@ -2,14 +2,16 @@ import clsx from 'clsx';
 import arrow from 'src/images/arrow.svg';
 
 import styles from './ArrowButton.module.scss';
-import { useClick } from 'src/hooks/useClick';
 
 /** Функция для обработки открытия/закрытия формы */
 export type OnClick = () => void;
 
-export const ArrowButton = () => {
-	const { state, onClick }:  { state: boolean; onClick: () => void }  = useClick();
+interface ArrowButtonProps {
+	state: boolean;
+	onClick: OnClick;
+}
 
+export const ArrowButton = ({state, onClick}: ArrowButtonProps) => {
 	return (
 		/* Не забываем указаывать role и aria-label атрибуты для интерактивных элементов */
 		<div

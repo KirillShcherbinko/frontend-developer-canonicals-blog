@@ -3,19 +3,15 @@ import { StrictMode, CSSProperties, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Article } from './components/article/Article';
 import { ArticleParamsForm } from './components/article-params-form/ArticleParamsForm';
-import { defaultArticleState } from './constants/articleProps';
-
+import { ArticleStateType, defaultArticleState } from './constants/articleProps';
 import './styles/index.scss';
 import styles from './styles/index.module.scss';
-import { ArticleStateProvider } from './contexts/article-state/ArticleStateProvider';
-import { useArticleState } from './hooks/useArticleState';
 
 const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
 
 const App = () => {
-	const { articleState } = useArticleState();
-
+	const [articleState, setArticleState] = useState<ArticleStateType>(defaultArticleState);
 
 	// Состояния страницы
 	const [fontFamilyValue, setFontFamilyValue] = useState<string>(
@@ -53,6 +49,10 @@ const App = () => {
 		setFontSizeValue(articleState.fontSizeOption.value);
 	}, [articleState]);
 
+	const handleChange = (changedArticleState: ArticleStateType) => {
+		setArticleState(changedArticleState);
+	}
+
 	return (
 		<div
 			className={clsx(styles.main)}
@@ -67,7 +67,10 @@ const App = () => {
 					
 			}
 		>
-			<ArticleParamsForm />
+			<ArticleParamsForm 
+				articleState={articleState}
+				onChange={handleChange}
+			/>
 			<Article />	
 		</div>
 	);
@@ -75,8 +78,6 @@ const App = () => {
 
 root.render(
 	<StrictMode>
-		<ArticleStateProvider>
-			<App />
-		</ArticleStateProvider>
+		<App />
 	</StrictMode>
 );
