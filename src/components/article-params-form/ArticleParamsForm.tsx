@@ -3,7 +3,7 @@ import { Button } from 'components/button';
 import { Text } from 'components/text';
 import clsx from 'clsx';
 import styles from './ArticleParamsForm.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ClickProvider } from 'src/contexts/click/ClickProvider';
 import { Spacing } from '../spacing';
 import { Select } from '../select';
@@ -18,28 +18,32 @@ import {
 } from 'src/constants/articleProps';
 import { RadioGroup } from '../radio-group';
 import { Separator } from '../separator';
+import { useArticleState } from 'src/hooks/useArticleState';
 
 export const ArticleParamsForm = () => {
+	const { articleState, dispatchArticleState } = useArticleState();
+
 	// Открытие и закрытие
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const toggle = () => setIsOpen(!isOpen);
 
+	useEffect(() => {setIsOpen(false)}, [articleState]);
+
 	// Выпадающий список для шрифтов
-	const [familyValue, setFamilyValue] = useState<OptionType>(defaultArticleState.fontFamilyOption);
+	const [fontFamilyValue, setFamilyValue] = useState<OptionType>(articleState.fontFamilyOption);
 
 	// Радиокнопки для размера шрифта
-	const [fontSizeValue, setFontSizeValue] = useState<OptionType>(defaultArticleState.fontSizeOption);
+	const [fontSizeValue, setFontSizeValue] = useState<OptionType>(articleState.fontSizeOption);
 
 	// Выпадоющий список для цвета шрифта
-	const [fontColorValue, setFontColorValue] = useState<OptionType>(defaultArticleState.fontColor);
+	const [fontColorValue, setFontColorValue] = useState<OptionType>(articleState.fontColor);
 
 	// Выпадающий список для цвета фона
-	const [backgroundColorValue, setBackgroundColorValue] = useState<OptionType>(defaultArticleState.backgroundColor);
+	const [backgroundColorValue, setBackgroundColorValue] = useState<OptionType>(articleState.backgroundColor);
 
 	// Выпадающий список для ширины контента
-	const [contentWidthValue, setContentWidthValue] = useState<OptionType>(defaultArticleState.contentWidth);
-
-
+	const [contentWidthValue, setContentWidthValue] = useState<OptionType>(articleState.contentWidth);
+	
 	return (
 		<>
 			<ClickProvider state={isOpen} onClick={toggle}><ArrowButton /></ClickProvider>
@@ -55,7 +59,7 @@ export const ArticleParamsForm = () => {
 					</Text>
 					<Spacing size={50}/>
 					<Select
-						selected={familyValue}
+						selected={fontFamilyValue}
 						options={fontFamilyOptions}
 						onChange={setFamilyValue}
 						title='ШРИФТ'
@@ -93,8 +97,24 @@ export const ArticleParamsForm = () => {
 					/>
 					<Spacing size={207}/>
 					<div className={styles.bottomContainer}>
-						<Button title='Сбросить' type='reset' />
-						<Button title='Применить' type='submit' />
+						<Button title='Сбросить' type='reset' onClick={() => 
+							dispatchArticleState({
+								type: 'setArticleState',
+								payload: defaultArticleState
+							})
+						}/>
+						<Button title='Применить' type='button' onClick={() => 
+							dispatchArticleState({
+								type: 'setArticleState',
+								payload: {
+									fontFamilyOption: fontFamilyValue,
+									fontSizeOption: fontSizeValue,
+									fontColor: fontColorValue,
+									backgroundColor: backgroundColorValue,
+									contentWidth: contentWidthValue
+								}
+							}
+						)}/>
 					</div>
 				</form>
 			</aside>
