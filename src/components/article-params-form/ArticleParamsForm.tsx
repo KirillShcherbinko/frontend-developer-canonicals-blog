@@ -68,7 +68,7 @@ export const ArticleParamsForm = ({articleState, onChange}: ArticleParamsFormPro
 					<Spacing size={50}/>
 					<Select
 						selected={fontColorValue}
-						options={fontColors}
+						options={fontColors.filter((color) => color.value !== backgroundColorValue.value)}
 						onChange={setFontColorValue}
 						title='ЦВЕТ ШРИФТА'
 					/>
@@ -77,7 +77,7 @@ export const ArticleParamsForm = ({articleState, onChange}: ArticleParamsFormPro
 					<Spacing size={50}/>
 					<Select
 						selected={backgroundColorValue}
-						options={backgroundColors}
+						options={backgroundColors.filter((color) => color.value !== fontColorValue.value)}
 						onChange={setBackgroundColorValue}
 						title='ЦВЕТ ФОНА'
 					/>
